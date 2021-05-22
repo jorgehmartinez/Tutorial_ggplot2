@@ -1,2 +1,2 @@
-# tutorial_ggplot2
- Tutorial sobre el paquete ggplot2
+# **Tutorial_ggplot2**
+ Tutorial sobre el paquete ´ggplot2´
