@@ -1,0 +1,128 @@
+---
+title: "Rmarkdown Prueba"
+author: "Jorge Huanca Martinez"
+date: "03/04/21"
+output:
+  html_document:
+    toc: true
+    toc_depht: 4
+    toc_float: true
+    theme: "yeti"
+    lang: es-ES
+  pdf_document: default
+---
+
+## Cómo construir gráficos con ggplot2
+
+### Paso 0. Cargar paquete 
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+### Paso 1. Base de datos
+```{r}
+ggplot(data = iris)
+```
+
+### Paso 2. Coordenadas
+```{r}
+ggplot(data = iris,
+       aes(x = Petal.Length,
+           y = Sepal.Length))
+```
+
+### Paso 3. Gráfica
+```{r}
+ggplot(data = iris,
+       aes(x = Petal.Length,
+           y = Sepal.Length)) +
+       geom_point()
+```
+
+### Paso 4. Relleno
+```{r}
+ggplot(data = iris,
+       aes(x = Petal.Length,
+           y = Sepal.Length,
+           colour = Species)) +
+       geom_point()
+```
+
+### Paso 5. Tema
+```{r}
+ggplot(data = iris,
+       aes(x = Petal.Length,
+           y = Sepal.Length,
+           colour = Species)) +
+       geom_point() +
+       theme_classic()
+```
+
+### Paso 6. Etiquetas
+```{r}
+ggplot(data = iris,
+       aes(x = Petal.Length,
+           y = Sepal.Length,
+           colour = Species)) +
+       geom_point() +
+       theme_classic() +
+       labs(
+       title = "Distribución de las especies",
+       subtitle = "Gráfica propia"
+       )
+```
+
+## Potenciando gráficas con tidyverse
+
+>Tidyverse es un ecosistema de paquetes, 
+>entre ellos se encuentra *ggplot2*, 
+>pero también hay otros como *dplyr* y *forcats*
+
+**Usaremos la base de datos llamada "gapminder"**
+
+```{r}
+library(gapminder)
+```
+
+
+### ¿Cómo potenciar gráficos con **dyplr**?
+
+```{r}
+gapminder %>% 
+  filter(
+    year == 2007,
+    continent == "Americas") %>% 
+  ggplot(aes(x = lifeExp,
+             y = country,
+             col = country)) +
+  geom_point(size = 3) +
+  theme(legend.position = "none")
+```
+
+### ¿Cómo manipular barras con **forcats**?
+
+### 1. Por defecto
+```{r}
+gapminder %>% 
+  ggplot(aes(y = continent)) +
+  geom_bar()
+```
+
+### 2. De menor a mayor
+```{r}
+gapminder %>% 
+  mutate(continent = fct_infreq(continent)) %>% 
+  ggplot(aes(y = continent)) +
+  geom_bar()
+```
+
+### 3. De mayor a menor
+```{r}
+gapminder %>% 
+  mutate(continent = fct_rev(fct_infreq(continent))) %>% 
+  ggplot(aes(y = continent)) +
+  geom_bar()
+```
+
+
